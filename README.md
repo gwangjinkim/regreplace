@@ -29,5 +29,15 @@ r.replace(s, 'ext', '.csv')    # 'C:\\Folder\\file_20001111-101010.txt'
 In this way, you can replace matches to named groups of a regex by the given value.
 
 
+While replacing, you can use also matches:
+```
+import datetime
 
+DATE="%Y%m%d-%H%M%S"
+
+def add_3_days(datestr, _format=DATE):
+    dt = datetime.datetime.strptime(datestr, _format) + datetime.timedelta(days=3)
+    return f"{dt.year:04d}{dt.month:02d}{dt.day:02d}-{dt.hour:02d}{dt.minute:02d}{dt.second:02d}"
+
+r.replace(s, 'date', add_3_days(r.match(s, 'date'))  ## 'C:\\Folder\\file_19001013-010101.txt'
 ```
