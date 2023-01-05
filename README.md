@@ -16,6 +16,9 @@ s = r'C:\Folder\file_19001010-010101.txt'
 new_date = "20001111-101010"
 
 # Instantiate for every pattern a new Replacer Instance
+# The regex pattern must contain at least one named group
+# which have the form `(?P<name>...)` where `...` is placeholder for some regex pattern and `name`
+# the place folder for some group name.
 r = Replacer(pattern=r".*?_(?P<date>\d{8}-\d{6}( \(1\))*)(?P<ext>\..+$)")  
 
 # inspect what was matched for each group by name
