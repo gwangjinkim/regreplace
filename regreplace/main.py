@@ -1,5 +1,4 @@
 import re
-import functools
 
 class Replacer:
     
@@ -18,19 +17,14 @@ class Replacer:
         dct = m.groupdict()
         return dct[group_name] if group_name in dct else None
     
-    def replace_closure(self, group_name, replacement, m):
-        """
-        This is just a helper function for `.replace()`
-        """
-        if m.group(group_name) not in [None, '']:
-            start, end = m.start(group_name), m.end(group_name)
-            return f"{m.group()[:start]}{replacement}{m.group()[end:]}"
-        else:
-            return m.group()
-    
     def replace(self, s, group_name, replacement):
         """
         This method replaces what was matched under the `group_name` by the `replacement`.
         The replacement could be the result of a processing of something `.match()`ed by any of the groups!
         """
-        return self.re.sub(functools.partial(self.replace_closure, group_name, replacement), s)
+        m = self.re.match(s)
+        if m.group(group_name) not in [None, '']:
+            start, end = m.start(group_name), m.end(group_name)
+            return f"{s[:start]}{replacement}{s[end:]}"
+        else:
+            return m.group()
